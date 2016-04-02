@@ -52,7 +52,7 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
   val angle = 90f // viewing angle
   //val angle = 180f // fisheye
 
-  def traceImage(width: Int, height: Int) {
+  def traceImageLine(width: Int, height: Int, lineVal: Int) {
 
     val frustum = (.5 * angle * math.Pi / 180).toFloat
 
@@ -63,13 +63,8 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
     // average the results to get smoother images.
     val ss = t.AntiAliasingFactor
 
-    // TODO:
-    // Create a parallel version of this loop, creating one actor per pixel or per row of
-    // pixels.  Each actor should send the Coordinator messages to set the
-    // color of a pixel.  The actor need not receive any messages.
-
-    for (y <- 0 until height) {
       for (x <- 0 until width) {
+        val y = lineVal
 
         // This loop body can be sequential.
         var colour = Colour.black
@@ -96,7 +91,6 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
 
         Coordinator.set(x, y, colour)
       }
-    }
   }
 
   def shadow(ray: Ray, l: Light): Boolean = {
@@ -122,8 +116,8 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
       // diffuse light
       val diffuse = o.colour * (N dot toLight.dir)
 
-      println("ray " + ray)
-      println("diffuse " + diffuse)
+      // println("ray " + ray)
+      // println("diffuse " + diffuse)
 
       // specular light
       val R = reflected(-toLight.dir, N)
@@ -146,11 +140,11 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
       else
         Colour.black
 
-      println("specular " + specular)
+      // println("specular " + specular)
 
       val color = diffuse + specular
 
-      println("color " + color + " 0x" + color.rgb.toHexString)
+      // println("color " + color + " 0x" + color.rgb.toHexString)
 
       color
     }

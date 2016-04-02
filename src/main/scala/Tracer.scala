@@ -1,7 +1,7 @@
 import java.io.File
 
 import akka.actor.{Props, ActorSystem}
-import com.mildlyskilled.{Scene, Image, Coordinator, Trace}
+import com.mildlyskilled._
 
 object Tracer extends App {
 
