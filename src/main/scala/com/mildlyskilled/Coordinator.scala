@@ -1,5 +1,8 @@
 package com.mildlyskilled
 
+import akka.actor._
+import akka.routing._
+
 /**
   * TODO
   * Make this an actor and write a message handler for at least the
@@ -29,3 +32,31 @@ object Coordinator {
     image.print(outfile)
   }
 }
+
+class Coordinator(outputfile: String, image: Image) extends Actor with ActorLogging {
+
+  val start: Long = System.currentTimeMillis()
+  val workerRouter = context.actorOf(BalancingPool(image.height / 4).props(Props[TraceActor]), "workerRouter")
+  var resultCounter = 0
+  var s: Scene = null
+
+  def receive = {
+    case Calculate(scene: Scene) =>
+      for (y <- 0 until image.height) workerRouter ! Work(scene, y)
+    case Result => resultCounter += 1
+      if (resultCounter == image.height) {
+        Coordinator.print
+        println("rays cast " + s.t.rayCount)
+        println("rays hit " + s.t.hitCount)
+        println("light " + s.t.lightCount)
+        println("dark " + s.t.darkCount)
+        println("Job time = " + (System.currentTimeMillis() - start))
+        context.system.terminate()
+      }
+  }
+}
+
+
+
+
+
