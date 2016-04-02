@@ -43,7 +43,7 @@ class Coordinator(outputfile: String, image: Image) extends Actor with ActorLogg
     case Calculate(scene: Scene) =>
       for (y <- 0 until image.height) workerRouter ! Work(scene, y)
       s = scene
-    case Result() => resultCounter += 1
+    case Result => resultCounter += 1
       println("returns in " + resultCounter)
       if (resultCounter == image.height) {
         Coordinator.print

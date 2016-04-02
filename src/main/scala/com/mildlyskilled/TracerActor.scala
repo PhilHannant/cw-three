@@ -8,7 +8,7 @@ class TracerActor() extends Actor with ActorLogging {
     case Work(scene, y) => scene.traceImageLine(scene.t.Width, scene.t.Height, y: Int)
       numRound += 1
       println("worker active for " + numRound + " time")
-      sender ! Result()
+      sender ! Result
   }
 
 }
