@@ -1,6 +1,6 @@
 import java.io.File
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ActorRef, Props, ActorSystem}
 import com.mildlyskilled._
 
 object Tracer extends App {
@@ -21,7 +21,7 @@ object Tracer extends App {
     val system = ActorSystem("Tracer")
     val coord = system.actorOf(Props(new Coordinator(outfile, image)))
 
-    coord ! Calculate(scene)
+    coord ! Calculate(scene, coord)
 
 
 

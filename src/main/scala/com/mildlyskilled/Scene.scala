@@ -1,5 +1,7 @@
 package com.mildlyskilled
 
+import akka.actor.{ActorRef, ActorSystem}
+
 object Scene {
 
   import java.io.{FileReader, LineNumberReader}
@@ -52,7 +54,7 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
   val angle = 90f // viewing angle
   //val angle = 180f // fisheye
 
-  def traceImageLine(width: Int, height: Int, lineVal: Int) {
+  def traceImageLine(width: Int, height: Int, lineVal: Int, coord: ActorRef) {
 
     val frustum = (.5 * angle * math.Pi / 180).toFloat
 
@@ -89,7 +91,9 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
         if (Vector(colour.r, colour.g, colour.b).norm > 1)
           t.lightCount += 1
 
-        Coordinator.set(x, y, colour)
+
+        coord ! Set(x, y, colour)
+//        Coordinator.set(x, y, colour)
       }
   }
 

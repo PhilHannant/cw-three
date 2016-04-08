@@ -34,8 +34,8 @@ class Coordinator(outputfile: String, image: Image) extends Actor with ActorLogg
   var s: Scene = null
 
   def receive = {
-    case Calculate(scene: Scene) =>
-      for (y <- 0 until image.height) workerRouter ! Work(scene, y)
+    case Calculate(scene: Scene, coord: ActorRef) =>
+      for (y <- 0 until image.height) workerRouter ! Work(scene, y, coord: ActorRef)
       s = scene
     case Result => resultCounter += 1
       println("returns in " + resultCounter)
@@ -48,6 +48,9 @@ class Coordinator(outputfile: String, image: Image) extends Actor with ActorLogg
         println("Job time = " + (System.currentTimeMillis() - start))
         context.system.terminate()
       }
+    case Set(x: Int, y: Int, c: Colour) => {
+      Coordinator.set(x, y, c)
+    }
   }
 }
 
