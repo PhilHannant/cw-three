@@ -21,7 +21,7 @@ object Tracer extends App {
     val system = ActorSystem("Tracer")
     val coord = system.actorOf(Props(new Coordinator(outfile, image)))
 
-    coord ! Calculate(scene, coord)
+    coord ! Calculate(scene)
 
 
 
