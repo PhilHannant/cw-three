@@ -11,7 +11,7 @@ This should generate a PNG file with the expected results
 
 Group Members:
 
-Ambrose Cole
-Mark Channer
-Phil Hannant
-Stefan Mayer
+Ambrose Cole  
+Mark Channer  
+Phil Hannant  
+Stefan Mayer  
