@@ -17,10 +17,10 @@ object Tracer extends App {
 
     // Init the coordinator -- must be done before starting it.
     Coordinator.init(image, outfile)
-
+    //Set up the actor system
     val system = ActorSystem("Tracer")
     val coord = system.actorOf(Props(new Coordinator(outfile, image)))
-
+    //First message sent to coordinator to begin calculation
     coord ! Calculate(scene)
 
 

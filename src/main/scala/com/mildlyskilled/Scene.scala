@@ -91,7 +91,7 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
         if (Vector(colour.r, colour.g, colour.b).norm > 1)
           t.lightCount += 1
 
-
+        //set message sent back to the coordinator actor
         coord ! Set(x, y, colour)
 //        Coordinator.set(x, y, colour)
       }

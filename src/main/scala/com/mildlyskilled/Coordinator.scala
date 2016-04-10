@@ -25,7 +25,7 @@ object Coordinator {
     image.print(outfile)
   }
 }
-
+//Coordinator actor
 class Coordinator(outputfile: String, image: Image) extends Actor with ActorLogging {
 
   val start: Long = System.currentTimeMillis()
